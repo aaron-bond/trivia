@@ -1,0 +1,7 @@
+<button mat-raised-button (click)="getQuestions()">Get Questions!</button>
+
+<div>
+    <div *ngFor="let question of questions">
+        {{ question.question }}
+    </div>
+</div>
