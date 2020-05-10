@@ -1,7 +1,24 @@
-<button mat-raised-button (click)="getQuestions()">Get Questions!</button>
+<mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select [(value)]="SelectedCategory">
+        <mat-option *ngFor="let c of CategoryOptions" [value]="c">
+            {{ Category[c] }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<button mat-raised-button (click)="getQuestions()" style="margin-left:10px;">Get Questions!</button>
+
+<br />
 
 <div>
-    <div *ngFor="let question of questions">
-        {{ question.question }}
+    <div *ngFor="let question of Questions" class="stuff">
+        <span [innerHTML]="question.question"></span>
+        -----
+        <br />
+
+        <span *ngFor="let answer of RandomiseAnswers(question)" [innerHTML]="answer"></span>
+
+        <br />
     </div>
 </div>

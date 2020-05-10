@@ -7,7 +7,7 @@ import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ShellComponent } from './shell/shell.component';
-import { OpenTriviaAPI } from './api/open-trivia.api';
+import { OpenTriviaAPI } from '../api/open-trivia.api';
 
 @NgModule({
     declarations: [ShellComponent],
