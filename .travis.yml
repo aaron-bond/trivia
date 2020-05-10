@@ -2,28 +2,28 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-    - "10.15.3"
+  - "10.15.3"
 
 addons:
 apt:
-    sources:
-        - google-chrome
-    packages:
-        - google-chrome-stable
-        - google-chrome-beta
+  sources:
+    - google-chrome
+  packages:
+    - google-chrome-stable
+    - google-chrome-beta
 
 before_install:
-    - export CHROME_BIN=chromium-browser
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 before_script:
-    - npm install -g @angular/cli
-    #- npm install -g karma
-    #- npm install -g codecov
-    #- npm install -g sw-precache
-    - npm install
-    - ng b -c=github-pages
+  - npm install -g @angular/cli
+  #- npm install -g karma
+  #- npm install -g codecov
+  #- npm install -g sw-precache
+  - npm install
+  - ng b -c=github-pages
 
 after_success:
 #- npm run prep
@@ -31,15 +31,15 @@ after_success:
 #- codecov
 
 script:
-    #- ng test -c=ci
+  - ng test -c=ci
 
 before_deploy:
-    - cd dist/trivia
-    - cp index.html 404.html
+  - cd dist/trivia
+  - cp index.html 404.html
 
 deploy:
-    provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    local_dir: dist/trivia
-    target_branch: gh-pages
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/trivia
+  target_branch: gh-pages
