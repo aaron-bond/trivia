@@ -31,7 +31,7 @@ after_success:
 #- codecov
 
 script:
-    - ng test -c=ci
+    #- ng test -c=ci
 
 before_deploy:
     - cd dist/trivia
