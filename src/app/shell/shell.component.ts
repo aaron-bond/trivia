@@ -10,7 +10,10 @@ import { Category } from 'src/model';
 })
 export class ShellComponent {
     public Questions: OpenTrivia.Question[];
-    public SelectedCategory: Category = Category.GeneralKnowledge;
+
+    public CurrentQuestion: OpenTrivia.Question;
+
+    public AnswerResult: string;
 
     public Category = Category;
 
@@ -22,8 +25,8 @@ export class ShellComponent {
 
     public constructor(private triviaAPI: OpenTriviaAPI) {}
 
-    public getQuestions(): void {
-        this.triviaAPI.getQuestions(this.SelectedCategory).subscribe({
+    public getQuestions(category: Category): void {
+        this.triviaAPI.getQuestions(category).subscribe({
             next: (result) => this.handleSuccess(result)
         });
     }
@@ -41,7 +44,25 @@ export class ShellComponent {
         }
     }
 
+    public NextQuestion(): void {
+        this.CurrentQuestion = this.Questions.pop();
+        this.AnswerResult = null;
+    }
+
+    public ChooseAnswer(answer: string): void {
+        if (answer === this.CurrentQuestion.correct_answer) {
+            this.AnswerResult = 'Correct!';
+        } else {
+            this.AnswerResult = 'Incorrect';
+        }
+
+        setTimeout(() => {
+            this.NextQuestion();
+        }, 3000);
+    }
+
     private handleSuccess(response: OpenTrivia.Response): void {
         this.Questions = response.results;
+        this.NextQuestion();
     }
 }

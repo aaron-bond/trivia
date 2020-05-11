@@ -1,4 +1,5 @@
-<mat-form-field>
+<!--
+    <mat-form-field>
     <mat-label>Category</mat-label>
     <mat-select [(value)]="SelectedCategory">
         <mat-option *ngFor="let c of CategoryOptions" [value]="c">
@@ -8,17 +9,26 @@
 </mat-form-field>
 
 <button mat-raised-button (click)="getQuestions()" style="margin-left:10px;">Get Questions!</button>
+ -->
+
+<ng-container *ngIf="!CurrentQuestion">
+    <ng-container *ngFor="let c of CategoryOptions">
+        <button mat-raised-button (click)="getQuestions(c)" style="margin:10px;">{{ Category[c] }}</button>
+    </ng-container>
+</ng-container>
 
 <br />
 
 <div>
-    <div *ngFor="let question of Questions" class="stuff">
-        <span [innerHTML]="question.question"></span>
-        -----
+    <div *ngIf="CurrentQuestion" class="stuff">
+        <span [innerHTML]="CurrentQuestion.question"></span>
+
+        <ng-container *ngFor="let answer of RandomiseAnswers(CurrentQuestion)">
+            <button mat-button color="primary" (click)="ChooseAnswer(answer)" [innerHTML]="answer"></button>
+        </ng-container>
+
         <br />
 
-        <span *ngFor="let answer of RandomiseAnswers(question)" [innerHTML]="answer"></span>
-
-        <br />
+        {{ AnswerResult }}
     </div>
 </div>
