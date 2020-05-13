@@ -58,7 +58,7 @@ export class ShellComponent {
 
         setTimeout(() => {
             this.NextQuestion();
-        }, 3000);
+        }, 2000);
     }
 
     private handleSuccess(response: OpenTrivia.Response): void {
