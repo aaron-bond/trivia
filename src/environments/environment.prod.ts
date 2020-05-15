@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+    production: true,
+    socketPath: 'https://trivia-ab.herokuapp.com:3000'
 };

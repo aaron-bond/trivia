@@ -16,6 +16,9 @@ export class ShellComponent {
 
     public AnswerResult: string;
 
+    public message: string = 'msg';
+    public convo: string[] = [];
+
     public Category = Category;
 
     public get CategoryOptions() {
@@ -28,7 +31,16 @@ export class ShellComponent {
         private triviaAPI: OpenTriviaAPI,
         private socketService: SocketService
     ) {
-        this.socketService.sendMessage('from angular!');
+        this.socketService.messageReceived.subscribe({
+            next: (msg) => {
+                this.convo.push(msg);
+                console.log('adding: ' + msg);
+            }
+        });
+    }
+
+    public sendMessage(): void {
+        this.socketService.sendMessage(this.message);
     }
 
     public getQuestions(category: Category): void {

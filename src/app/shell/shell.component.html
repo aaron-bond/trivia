@@ -7,6 +7,11 @@
     </ng-container>
 </div>
 
+<div style="white-space: pre;" *ngFor="let line of convo">{{ line }}</div>
+
+<input [(ngModel)]="message" />
+<button (click)="sendMessage()">send</button>
+
 <br />
 
 <div>
