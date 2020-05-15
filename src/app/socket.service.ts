@@ -6,16 +6,13 @@ import { Subject } from 'rxjs';
 export class SocketService {
     public messageReceived: Subject<string> = new Subject<string>();
 
-    public constructor(private socket: Socket) {}
-
-    public sendMessage(msg: string) {
-        console.log('msg = ' + msg);
-
-        this.socket.emit('message', msg);
-
+    public constructor(private socket: Socket) {
         this.socket.on('message', (msg: string) => {
-            console.log('rec = ' + msg);
             this.messageReceived.next(msg);
         });
+    }
+
+    public sendMessage(msg: string) {
+        this.socket.emit('message', msg);
     }
 }

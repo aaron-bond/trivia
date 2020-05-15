@@ -34,7 +34,6 @@ export class ShellComponent {
         this.socketService.messageReceived.subscribe({
             next: (msg) => {
                 this.convo.push(msg);
-                console.log('adding: ' + msg);
             }
         });
     }
