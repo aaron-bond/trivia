@@ -7,20 +7,13 @@ import { Category } from 'src/model';
 import { SocketService } from '../socket.service';
 
 class OpenTriviaAPISpy {
-    public getQuestions: jasmine.Spy = jasmine
-        .createSpy('getQuestions')
-        .and.callFake((category: Category) => {});
+    public getQuestions: jasmine.Spy = jasmine.createSpy('getQuestions').and.callFake((category: Category) => {});
 }
 
 class SocketServiceSpy {
-    public sendMessage: jasmine.Spy = jasmine
-        .createSpy('sendMessage')
-        .and.callFake((msg: string) => {});
+    public sendMessage: jasmine.Spy = jasmine.createSpy('sendMessage').and.callFake((msg: string) => {});
 
-    public messageReceived: jasmine.Spy = jasmine.createSpyObj(
-        'messageReceived',
-        ['subscribe']
-    );
+    public messageReceived: jasmine.Spy = jasmine.createSpyObj('messageReceived', ['subscribe']);
 }
 
 describe('ShellComponent', () => {
