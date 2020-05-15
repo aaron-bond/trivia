@@ -16,6 +16,11 @@ class SocketServiceSpy {
     public sendMessage: jasmine.Spy = jasmine
         .createSpy('sendMessage')
         .and.callFake((msg: string) => {});
+
+    public messageReceived: jasmine.Spy = jasmine.createSpyObj(
+        'messageReceived',
+        ['subscribe']
+    );
 }
 
 describe('ShellComponent', () => {
