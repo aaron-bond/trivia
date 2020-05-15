@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { OpenTriviaAPI } from 'src/api/open-trivia.api';
 import { Category } from 'src/model';
+import { SocketService } from '../socket.service';
 
 @Component({
     selector: 'shell',
@@ -23,7 +24,12 @@ export class ShellComponent {
         return categories.slice(0, categories.length / 2);
     }
 
-    public constructor(private triviaAPI: OpenTriviaAPI) {}
+    public constructor(
+        private triviaAPI: OpenTriviaAPI,
+        private socketService: SocketService
+    ) {
+        this.socketService.sendMessage('from angular!');
+    }
 
     public getQuestions(category: Category): void {
         this.triviaAPI.getQuestions(category).subscribe({

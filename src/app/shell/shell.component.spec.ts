@@ -4,12 +4,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ShellComponent } from './shell.component';
 import { OpenTriviaAPI } from 'src/api/open-trivia.api';
 import { Category } from 'src/model';
+import { SocketService } from '../socket.service';
 
-class StorageHelperSpy {
+class OpenTriviaAPISpy {
     public getQuestions: jasmine.Spy = jasmine
         .createSpy('getQuestions')
         .and.callFake((category: Category) => {});
 }
+
+class SocketServiceSpy {}
 
 describe('ShellComponent', () => {
     let component: ShellComponent;
@@ -18,7 +21,10 @@ describe('ShellComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ShellComponent],
-            providers: [{ provide: OpenTriviaAPI, useClass: StorageHelperSpy }],
+            providers: [
+                { provide: OpenTriviaAPI, useClass: OpenTriviaAPISpy },
+                { provide: SocketService, useClass: SocketServiceSpy }
+            ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
     }));
