@@ -12,7 +12,11 @@ class OpenTriviaAPISpy {
         .and.callFake((category: Category) => {});
 }
 
-class SocketServiceSpy {}
+class SocketServiceSpy {
+    public sendMessage: jasmine.Spy = jasmine
+        .createSpy('sendMessage')
+        .and.callFake((msg: string) => {});
+}
 
 describe('ShellComponent', () => {
     let component: ShellComponent;
