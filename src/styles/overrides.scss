@@ -1,0 +1,73 @@
+.mat-card {
+    margin: 2em;
+    max-width: 400px;
+    padding-top: 0;
+
+    i {
+        color: white;
+    }
+
+    i:hover {
+        cursor: pointer;
+    }
+
+    i.overlay {
+        position: absolute;
+        left: 42%;
+        top: 32%;
+        font-size: 5em;
+    }
+
+    mat-card-content {
+        display: flex;
+        flex-direction: column;
+
+        .fill {
+            flex-grow: 1;
+        }
+
+        i {
+            font-size: 16px;
+            opacity: 0.6;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        mat-card-subtitle {
+            display: inline-block;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.75);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    z-index: 1000;
+
+    mat-card.mat-card {
+        mat-card-content.mat-card-content {
+            margin-top: 16px;
+            margin-bottom: 0;
+
+            mat-progress-spinner {
+                margin-bottom: 16px;
+            }
+        }
+
+        mat-card-actions {
+            text-align: right;
+            padding-top: 0;
+        }
+    }
+}

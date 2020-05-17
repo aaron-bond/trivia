@@ -1,31 +1,24 @@
-<div *ngIf="!CurrentQuestion" class="category-container">
-    <ng-container *ngFor="let c of CategoryOptions">
-        <div>
-            <button mat-raised-button color="primary" style="margin:10px;"
-                (click)="getQuestions(c)">{{ Category[c] }}</button>
-        </div>
+<!-- Filling the screen when first loaded to show the game options -->
+<div class="shell-overlay" [class.full-screen]="ShowSplashScreen">
+    <ng-container *ngIf="ShowSplashScreen">
+
+        <button mat-raised-button color="primary" (click)="ShowOverlay = true; ShowGameCreation = true">
+            Create a game
+        </button>
+        <button mat-raised-button color="primary" (click)="ShowOverlay = true; ShowGameCreation = false">
+            Join a game
+        </button>
+
     </ng-container>
 </div>
 
-<div style="white-space: pre;" *ngFor="let line of convo">{{ line }}</div>
+<div class="modal-overlay" *ngIf="ShowOverlay && ShowSplashScreen" (click)="HandleOverlayClick($event)">
 
-<input [(ngModel)]="message" />
-<button (click)="sendMessage()">send</button>
+    <create-game *ngIf="ShowGameCreation"></create-game>
 
-<br />
+    <join-game *ngIf="!ShowGameCreation"></join-game>
 
-<div>
-    <div *ngIf="CurrentQuestion" class="stuff">
-        <span class="question" [innerHTML]="CurrentQuestion.question"></span>
-
-        <ng-container *ngFor="let answer of RandomiseAnswers(CurrentQuestion)">
-            <button mat-raised-button (click)="ChooseAnswer(answer)" [innerHTML]="answer"></button>
-        </ng-container>
-
-        <br />
-    </div>
-
-    <div class="result-overlay" *ngIf="AnswerResult">
-        {{ AnswerResult }}
-    </div>
 </div>
+
+<!-- content from routes goes here -->
+<router-outlet></router-outlet>

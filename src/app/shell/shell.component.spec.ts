@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ShellComponent } from './shell.component';
-import { OpenTriviaAPI } from 'src/api/open-trivia.api';
-import { Category } from 'src/model';
-import { SocketService } from '../socket.service';
+import { OpenTriviaAPI } from 'services/open-trivia.api';
+import { Category } from 'model';
+import { SocketService } from '../../services/socket.service';
 
 class OpenTriviaAPISpy {
     public getQuestions: jasmine.Spy = jasmine.createSpy('getQuestions').and.callFake((category: Category) => {});

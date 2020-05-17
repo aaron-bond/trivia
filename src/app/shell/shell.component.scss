@@ -1,41 +1,38 @@
+@import "styles/theme.scss";
+
 :host {
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
 }
 
-.stuff {
-    padding: 10px;
+button {
+    max-width: 10rem;
+}
 
-    span {
-        display: block;
+.shell-overlay {
+    display: flex;
+    flex-direction: column;
+
+    flex-grow: 0;
+    width: 100%;
+    transition: 1s all;
+
+    z-index: 100;
+    background-color: $background;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.full-screen {
+        flex-grow: 1;
+        transition: 1s all;
     }
 
     button {
-        width: 100%;
-        margin-top: 2em;
-        height: 4em;
+        margin-bottom: 1em;
     }
-
-    .question {
-        font-size: 1.5rem;
-        line-height: 2rem;
-    }
-}
-
-.category-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-.result-overlay {
-    position: absolute;
-    top: 0;
-    display: flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
 }

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-
-import { OpenTriviaAPI } from 'src/api/open-trivia.api';
-import { Category } from 'src/model';
-import { SocketService } from '../socket.service';
+import { filter } from 'rxjs/operators';
+import { SocketService } from 'services/socket.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'shell',
@@ -10,76 +9,42 @@ import { SocketService } from '../socket.service';
     styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent {
-    public Questions: OpenTrivia.Question[];
+    /**
+     *
+     */
+    public ShowSplashScreen = true;
 
-    public CurrentQuestion: OpenTrivia.Question;
+    /**
+     *
+     */
+    public ShowGameCreation: boolean = false;
 
-    public AnswerResult: string;
+    /**
+     *
+     */
+    public ShowOverlay: boolean = false;
 
-    public message: string = 'msg';
-    public convo: string[] = [];
-
-    public Category = Category;
-
-    public get CategoryOptions() {
-        let categories = Object.keys(Category);
-
-        return categories.slice(0, categories.length / 2);
-    }
-
-    public constructor(
-        private triviaAPI: OpenTriviaAPI,
-        private socketService: SocketService
-    ) {
-        this.socketService.messageReceived.subscribe({
-            next: (msg) => {
-                this.convo.push(msg);
+    /**
+     * Creates a new instance of the ShellComponent
+     * @param socketService The Socket IO service wrapper
+     */
+    public constructor(private socketService: SocketService, private router: Router) {
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe({
+            next: (event) => {
+                let navigationEnd = event as NavigationEnd;
+                if (navigationEnd.url != '/') {
+                    this.ShowSplashScreen = false;
+                }
             }
         });
     }
 
-    public sendMessage(): void {
-        this.socketService.sendMessage(this.message);
-    }
+    public HandleOverlayClick(event: MouseEvent): void {
+        let element = event.target as HTMLElement;
 
-    public getQuestions(category: Category): void {
-        this.triviaAPI.getQuestions(category).subscribe({
-            next: (result) => this.handleSuccess(result)
-        });
-    }
-
-    public RandomiseAnswers(question: OpenTrivia.Question): string[] {
-        let allAnswers: string[] = [
-            question.correct_answer,
-            ...question.incorrect_answers
-        ];
-
-        if (allAnswers.indexOf('True') > -1) {
-            return allAnswers.sort((a, b) => b.localeCompare(a));
-        } else {
-            return allAnswers.sort((a, b) => a.localeCompare(b));
+        // only hide the modal if the click came from the background behind the dialog
+        if (element.classList.contains('modal-overlay')) {
+            this.ShowOverlay = false;
         }
-    }
-
-    public NextQuestion(): void {
-        this.CurrentQuestion = this.Questions.pop();
-        this.AnswerResult = null;
-    }
-
-    public ChooseAnswer(answer: string): void {
-        if (answer === this.CurrentQuestion.correct_answer) {
-            this.AnswerResult = 'Correct!';
-        } else {
-            this.AnswerResult = 'Incorrect';
-        }
-
-        setTimeout(() => {
-            this.NextQuestion();
-        }, 2000);
-    }
-
-    private handleSuccess(response: OpenTrivia.Response): void {
-        this.Questions = response.results;
-        this.NextQuestion();
     }
 }
