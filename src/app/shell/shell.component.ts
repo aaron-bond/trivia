@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { SocketService } from 'services/socket.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { GameService } from 'services';
 
 @Component({
     selector: 'shell',
@@ -25,10 +26,12 @@ export class ShellComponent {
     public ShowOverlay: boolean = false;
 
     /**
-     * Creates a new instance of the ShellComponent
-     * @param socketService The Socket IO service wrapper
+     *
+     * @param socketService
+     * @param gameService
+     * @param router
      */
-    public constructor(private socketService: SocketService, private router: Router) {
+    public constructor(private socketService: SocketService, private gameService: GameService, private router: Router) {
         this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe({
             next: (event) => {
                 let navigationEnd = event as NavigationEnd;

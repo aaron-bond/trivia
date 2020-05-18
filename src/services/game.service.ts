@@ -12,6 +12,10 @@ export class GameService {
         this.socketService.InformationShared.subscribe({
             next: (info) => this.handleInformationShared(info)
         });
+
+        this.socketService.LobbySynchronised.subscribe({
+            next: (lobby) => this.handleLobbySynchronised(lobby)
+        });
     }
 
     /**
@@ -31,5 +35,16 @@ export class GameService {
         this.Players = [...this.Players, playerInfo];
 
         this.PlayerAdded.next(this.Players);
+
+        this.socketService.SynchroniseLobby(JSON.stringify(this.Players));
+    }
+
+    /**
+     *
+     * @param lobby
+     */
+    private handleLobbySynchronised(lobby: string): void {
+        let players: PlayerInfo[] = JSON.parse(lobby);
+        this.Players = players;
     }
 }
