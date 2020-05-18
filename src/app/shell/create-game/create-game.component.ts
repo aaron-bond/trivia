@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-
-import { SocketService } from 'services/socket.service';
 import { Router } from '@angular/router';
+
+import { SocketService, GameService } from 'services';
 
 @Component({
     selector: 'create-game',
@@ -38,7 +38,7 @@ export class CreateGameComponent {
      * Creates a new instance of the CreateGameComponent
      * @param socketService The Socket IO service wrapper
      */
-    public constructor(private socketService: SocketService, private router: Router) {}
+    public constructor(private socketService: SocketService, private gameService: GameService, private router: Router) {}
 
     /**
      *
@@ -48,6 +48,12 @@ export class CreateGameComponent {
         // NOTE only the host will be connected to this event
         this.socketService.RoomCreated.subscribe((roomId) => {
             this.RoomId = roomId;
+
+            this.gameService.AddPlayer({
+                name: this.PlayerName,
+                wins: 0,
+                played: 0
+            });
         });
 
         this.socketService.CreateRoom();

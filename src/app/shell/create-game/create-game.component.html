@@ -57,7 +57,7 @@
         </mat-card-content>
 
         <mat-card-actions>
-            <button mat-button (click)="NavigateToLobby()">Begin</button>
+            <button mat-button (click)="NavigateToLobby()" [disabled]="!RoomId">Begin</button>
         </mat-card-actions>
     </ng-container>
 

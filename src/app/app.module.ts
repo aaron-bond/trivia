@@ -16,7 +16,7 @@ import { MaterialModule } from './material.module';
 import { environment } from 'environments/environment';
 
 // Services
-import { OpenTriviaAPI, SocketService } from 'services';
+import { OpenTriviaAPI, SocketService, GameService } from 'services';
 
 // Components
 import { ShellComponent } from 'app/shell/shell.component';
@@ -50,7 +50,7 @@ const routes: Routes = [{ path: 'lobby', component: LobbyComponent }];
         SocketIoModule.forRoot(config),
         RouterModule.forRoot(routes)
     ],
-    providers: [OpenTriviaAPI, SocketService],
+    providers: [OpenTriviaAPI, SocketService, GameService],
     bootstrap: [ShellComponent]
 })
 export class AppModule {}

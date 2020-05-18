@@ -20,6 +20,7 @@ enum Client {
 export class SocketService {
     public RoomCreated: Subject<string> = new Subject<string>();
     public RoomJoined: Subject<void> = new Subject<void>();
+    public InformationShared: Subject<string> = new Subject<string>();
 
     private roomId: string = null;
     private isHost: boolean = false;
@@ -27,14 +28,6 @@ export class SocketService {
     public constructor(private socket: Socket) {
         this.socket.on(Client.RoomCreated, (roomId: string) => this.handleRoomCreated(roomId));
         this.socket.on(Client.RoomJoined, () => this.handleRoomJoined());
-
-        /* this.socket.on('player-joined', (playerInfo: PlayerInfo) => {
-            if (this.isHost) {
-                this.PlayerJoined.next(playerInfo);
-
-                this.Players.push(playerInfo);
-            }
-        }); */
     }
 
     public CreateRoom(): void {
@@ -45,19 +38,25 @@ export class SocketService {
         this.socket.emit(Server.JoinRoom, roomId);
     }
 
+    public ShareInformation(information: string): void {
+        this.socket.emit(Server.ShareInformation, information);
+    }
+
     private handleRoomCreated(roomId: string): void {
         this.roomId = roomId;
         this.isHost = true;
 
         // only the host should listen for the information shared event
-        this.socket.on(Client.InformationShared, (information) => console.log(information));
+        this.socket.on(Client.InformationShared, (information: string) => this.handleInformationShared(information));
 
         this.RoomCreated.next(this.roomId);
     }
 
     private handleRoomJoined(): void {
         this.RoomJoined.next();
+    }
 
-        this.socket.emit(Server.ShareInformation, 'New player from Angular');
+    private handleInformationShared(information: string): void {
+        this.InformationShared.next(information);
     }
 }

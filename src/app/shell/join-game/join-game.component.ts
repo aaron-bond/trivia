@@ -22,12 +22,28 @@ export class JoinGameComponent {
      * Creates a new instance of the CreateGameComponent
      * @param socketService The Socket IO service wrapper
      */
-    public constructor(private socketService: SocketService) {}
+    public constructor(private socketService: SocketService) {
+        this.socketService.RoomJoined.subscribe({
+            next: () => this.handleRoomJoined()
+        });
+    }
 
     /**
      *
      */
     public JoinGame(): void {
         this.socketService.JoinRoom(this.RoomId);
+    }
+
+    /**
+     *
+     */
+    private handleRoomJoined(): void {
+        let information: PlayerInfo = {
+            name: this.PlayerName,
+            wins: 0,
+            played: 0
+        };
+        this.socketService.ShareInformation(JSON.stringify(information));
     }
 }
