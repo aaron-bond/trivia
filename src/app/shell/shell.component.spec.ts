@@ -1,6 +1,7 @@
-/*
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ShellComponent } from './shell.component';
 import { OpenTriviaAPI, SocketService, GameService } from 'services';
@@ -26,6 +27,7 @@ describe('ShellComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports:[RouterTestingModule],
             declarations: [ShellComponent],
             providers: [
                 { provide: OpenTriviaAPI, useClass: OpenTriviaAPISpy },
@@ -47,4 +49,3 @@ describe('ShellComponent', () => {
         expect(component).toBeTruthy();
     });
 });
-*/
