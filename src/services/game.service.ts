@@ -4,9 +4,18 @@ import { SocketService } from './socket.service';
 
 @Injectable()
 export class GameService {
-    public Players: PlayerInfo[] = [];
-
     public PlayerAdded: Subject<PlayerInfo[]> = new Subject<PlayerInfo[]>();
+
+    /**
+     * Whether the full-screen splash is displayed
+     * By default, the shell overlay is displayed and then dismissed with some action
+     */
+    public ShowSplashScreen = true;
+
+    /**
+     *
+     */
+    public Players: PlayerInfo[] = [];
 
     public constructor(private socketService: SocketService) {
         this.socketService.InformationShared.subscribe({

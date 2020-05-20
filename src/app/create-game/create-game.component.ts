@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SocketService, GameService } from 'services';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'create-game',
@@ -34,11 +35,20 @@ export class CreateGameComponent {
      */
     public WaitingForGame: boolean = false;
 
+    public get JoinRoomShareLink(): string {
+        return this.RoomId;
+    }
+
     /**
      * Creates a new instance of the CreateGameComponent
      * @param socketService The Socket IO service wrapper
      */
-    public constructor(private socketService: SocketService, private gameService: GameService, private router: Router) {}
+    public constructor(
+        private socketService: SocketService,
+        private gameService: GameService,
+        private router: Router,
+        private location: Location
+    ) {}
 
     /**
      *
@@ -79,5 +89,17 @@ export class CreateGameComponent {
         input.select();
         document.execCommand('copy');
         input.setSelectionRange(0, 0);
+    }
+
+    /**
+     *
+     */
+    public HandleOverlayClick(event: MouseEvent): void {
+        let element = event.target as HTMLElement;
+
+        // only hide the modal if the click came from the background behind the dialog
+        if (element.classList.contains('modal-overlay')) {
+            this.router.navigate(['/']);
+        }
     }
 }

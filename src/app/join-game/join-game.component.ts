@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
-
-import { SocketService } from 'services/socket.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { GameService, SocketService } from 'services';
 
 @Component({
     selector: 'join-game',
     templateUrl: './join-game.component.html',
     styleUrls: ['./join-game.component.scss']
 })
-export class JoinGameComponent {
+export class JoinGameComponent implements OnInit {
     /**
      *
      */
@@ -24,9 +23,25 @@ export class JoinGameComponent {
      * @param socketService The Socket IO service wrapper
      * @param router The Angular Router service
      */
-    public constructor(private socketService: SocketService, private router: Router) {
+    public constructor(
+        private socketService: SocketService,
+        private gameService: GameService,
+        private router: Router,
+        private activatedRoute: ActivatedRoute
+    ) {
         this.socketService.RoomJoined.subscribe({
             next: () => this.handleRoomJoined()
+        });
+    }
+
+    ngOnInit(): void {
+        this.activatedRoute.paramMap.subscribe({
+            next: (paramMap) => {
+                let lobbyId = paramMap.get('lobbyId');
+                if (lobbyId) {
+                    this.RoomId = lobbyId;
+                }
+            }
         });
     }
 
@@ -35,6 +50,18 @@ export class JoinGameComponent {
      */
     public JoinGame(): void {
         this.socketService.JoinRoom(this.RoomId);
+    }
+
+    /**
+     *
+     */
+    public HandleOverlayClick(event: MouseEvent): void {
+        let element = event.target as HTMLElement;
+
+        // only hide the modal if the click came from the background behind the dialog
+        if (element.classList.contains('modal-overlay')) {
+            this.router.navigate(['/']);
+        }
     }
 
     /**

@@ -1,0 +1,24 @@
+<div class="modal-overlay" (click)="HandleOverlayClick($event)">
+    <mat-card>
+        <mat-card-title>
+            Join a game
+        </mat-card-title>
+
+        <mat-card-content style="flex-direction: column;">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Game ID:</mat-label>
+                <input matInput [(ngModel)]="RoomId" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Player name:</mat-label>
+                <input matInput [(ngModel)]="PlayerName" />
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-button (click)="JoinGame()">Join</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

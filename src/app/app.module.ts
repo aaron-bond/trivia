@@ -20,8 +20,8 @@ import { OpenTriviaAPI, SocketService, GameService } from 'services';
 
 // Components
 import { ShellComponent } from 'app/shell/shell.component';
-import { CreateGameComponent } from 'app/shell/create-game/create-game.component';
-import { JoinGameComponent } from 'app/shell/join-game/join-game.component';
+import { CreateGameComponent } from 'app/create-game/create-game.component';
+import { JoinGameComponent } from 'app/join-game/join-game.component';
 import { LobbyComponent } from 'app/lobby/lobby.component';
 
 const config: SocketIoConfig = {
@@ -29,7 +29,12 @@ const config: SocketIoConfig = {
     options: {}
 };
 
-const routes: Routes = [{ path: 'lobby', component: LobbyComponent }];
+const routes: Routes = [
+    { path: 'lobby', component: LobbyComponent },
+    { path: ':lobbyId', redirectTo: 'join/:lobbyId', pathMatch: 'full' },
+    { path: 'create', component: CreateGameComponent },
+    { path: 'join', component: JoinGameComponent }
+];
 
 @NgModule({
     declarations: [

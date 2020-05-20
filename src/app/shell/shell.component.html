@@ -2,22 +2,14 @@
 <div class="shell-overlay" [class.full-screen]="ShowSplashScreen">
     <ng-container *ngIf="ShowSplashScreen">
 
-        <button mat-raised-button color="primary" (click)="ShowOverlay = true; ShowGameCreation = true">
+        <button mat-raised-button color="primary" routerLink="create">
             Create a game
         </button>
-        <button mat-raised-button color="primary" (click)="ShowOverlay = true; ShowGameCreation = false">
+        <button mat-raised-button color="primary" routerLink="join">
             Join a game
         </button>
 
     </ng-container>
-</div>
-
-<div class="modal-overlay" *ngIf="ShowOverlay && ShowSplashScreen" (click)="HandleOverlayClick($event)">
-
-    <create-game *ngIf="ShowGameCreation"></create-game>
-
-    <join-game *ngIf="!ShowGameCreation"></join-game>
-
 </div>
 
 <!-- content from routes goes here -->
