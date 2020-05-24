@@ -31,9 +31,10 @@ const config: SocketIoConfig = {
 
 const routes: Routes = [
     { path: 'lobby', component: LobbyComponent },
-    { path: ':lobbyId', redirectTo: 'join/:lobbyId', pathMatch: 'full' },
     { path: 'create', component: CreateGameComponent },
-    { path: 'join', component: JoinGameComponent }
+    { path: 'join', component: JoinGameComponent },
+    { path: 'join/:lobbyId', component: JoinGameComponent },
+    { path: '*', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({

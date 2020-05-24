@@ -1,4 +1,13 @@
-{{ RoomId }}
+<div>
+    <input #clipboardInput [value]="JoinLobbyShareLink" readonly class="hidden" tabindex="-1" />
+
+    <!-- Game ID copy input -->
+    <mat-form-field appearance="outline" *ngIf="LobbyId">
+        <mat-label>Game ID</mat-label>
+        <input matInput [value]="LobbyId" readonly />
+        <mat-icon matSuffix (click)="CopyToClipboard(clipboardInput, $event)">file_copy</mat-icon>
+    </mat-form-field>
+</div>
 
 <table mat-table [dataSource]="Players" class="mat-elevation-z8" style="width:30em">
 

@@ -14,9 +14,9 @@ export class JoinGameComponent implements OnInit {
     public PlayerName: string = null;
 
     /**
-     * The Socket IO room being joined
+     * The Socket IO lobby being joined
      */
-    public RoomId: string = '';
+    public LobbyId: string = '';
 
     /**
      * Creates a new instance of the CreateGameComponent
@@ -29,8 +29,8 @@ export class JoinGameComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
-        this.socketService.RoomJoined.subscribe({
-            next: () => this.handleRoomJoined()
+        this.socketService.LobbyJoined.subscribe({
+            next: () => this.handleLobbyJoined()
         });
     }
 
@@ -39,7 +39,7 @@ export class JoinGameComponent implements OnInit {
             next: (paramMap) => {
                 let lobbyId = paramMap.get('lobbyId');
                 if (lobbyId) {
-                    this.RoomId = lobbyId;
+                    this.LobbyId = lobbyId;
                 }
             }
         });
@@ -49,7 +49,7 @@ export class JoinGameComponent implements OnInit {
      *
      */
     public JoinGame(): void {
-        this.socketService.JoinRoom(this.RoomId);
+        this.socketService.JoinLobby(this.LobbyId);
     }
 
     /**
@@ -67,9 +67,9 @@ export class JoinGameComponent implements OnInit {
     /**
      *
      */
-    private handleRoomJoined(): void {
-        // Set the RoomId so the socketService knows where it is
-        this.socketService.RoomId = this.RoomId;
+    private handleLobbyJoined(): void {
+        // Set the LobbyId so the socketService knows where it is
+        this.socketService.LobbyId = this.LobbyId;
 
         let information: PlayerInfo = {
             name: this.PlayerName,

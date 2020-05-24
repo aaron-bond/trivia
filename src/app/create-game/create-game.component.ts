@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SocketService, GameService } from 'services';
-import { Location } from '@angular/common';
 
 @Component({
     selector: 'create-game',
@@ -26,69 +25,43 @@ export class CreateGameComponent {
     public PlayerName: string = null;
 
     /**
-     * The Socket IO room being created
+     * The Socket IO lobby being created
      */
-    public RoomId: string = '';
+    public LobbyId: string = '';
 
     /**
      *
      */
-    public WaitingForGame: boolean = false;
-
-    public get JoinRoomShareLink(): string {
-        return this.RoomId;
+    public get JoinLobbyShareLink(): string {
+        // TODO use proper Location URL builder
+        return window.location.protocol + window.location.host + '/join/' + this.LobbyId;
     }
 
     /**
      * Creates a new instance of the CreateGameComponent
      * @param socketService The Socket IO service wrapper
      */
-    public constructor(
-        private socketService: SocketService,
-        private gameService: GameService,
-        private router: Router,
-        private location: Location
-    ) {}
+    public constructor(private socketService: SocketService, private gameService: GameService, private router: Router) {}
 
     /**
      *
      */
     public CreateGame(): void {
-        // Attach to the RoomCreated event to handle completion of the call
+        // Attach to the LobbyCreated event to handle completion of the call
         // NOTE only the host will be connected to this event
-        this.socketService.RoomCreated.subscribe((roomId) => {
-            this.RoomId = roomId;
+        this.socketService.LobbyCreated.subscribe((lobbyId) => {
+            this.LobbyId = lobbyId;
 
             this.gameService.AddPlayer({
                 name: this.PlayerName,
                 wins: 0,
                 played: 0
             });
+
+            this.router.navigate(['/lobby']);
         });
 
-        this.socketService.CreateRoom();
-
-        this.WaitingForGame = true;
-    }
-
-    /**
-     *
-     */
-    public NavigateToLobby(): void {
-        this.router.navigate(['/lobby']);
-    }
-
-    /**
-     *
-     * @param input
-     * @param event
-     */
-    public CopyToClipboard(input: HTMLInputElement, event: MouseEvent): void {
-        event.stopPropagation();
-
-        input.select();
-        document.execCommand('copy');
-        input.setSelectionRange(0, 0);
+        this.socketService.CreateLobby();
     }
 
     /**

@@ -9,14 +9,31 @@ import { SocketService, GameService } from 'services';
     styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent {
+    /**
+     *
+     */
     public displayedColumns: string[] = ['host', 'name', 'wins', 'played'];
 
+    /**
+     *
+     */
     public get Players(): PlayerInfo[] {
         return this.gameService.Players;
     }
 
-    public get RoomId(): string {
-        return this.socketService.RoomId;
+    /**
+     *
+     */
+    public get LobbyId(): string {
+        return this.socketService.LobbyId;
+    }
+
+    /**
+     *
+     */
+    public get JoinLobbyShareLink(): string {
+        // TODO use proper Location URL builder
+        return window.location.protocol + window.location.host + '/join/' + this.LobbyId;
     }
 
     /**
@@ -27,13 +44,26 @@ export class LobbyComponent {
      * @param activatedRoute
      */
     public constructor(private socketService: SocketService, private gameService: GameService, private router: Router) {
-        // If the RoomId isn't set, it means that the lobby isn't initialised, so send user back to root
-        if (!this.socketService.RoomId) {
+        // If the LobbyId isn't set, it means that the lobby isn't initialised, so send user back to root
+        if (!this.socketService.LobbyId) {
             this.router.navigate(['/']);
             return;
         }
 
         // Turn off the splash screen now that we've loaded
         this.gameService.ShowSplashScreen = false;
+    }
+
+    /**
+     *
+     * @param input
+     * @param event
+     */
+    public CopyToClipboard(input: HTMLInputElement, event: MouseEvent): void {
+        event.stopPropagation();
+
+        input.select();
+        document.execCommand('copy');
+        input.setSelectionRange(0, 0);
     }
 }

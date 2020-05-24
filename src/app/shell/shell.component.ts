@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { filter } from 'rxjs/operators';
-import { SocketService } from 'services/socket.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { GameService } from 'services';
+import { Router } from '@angular/router';
+import { GameService, SocketService } from 'services';
 
 @Component({
     selector: 'shell',
@@ -21,6 +19,19 @@ export class ShellComponent {
     /**
      * Creates a new instance of the ShellCommponent
      * @param gameService
+     * @param socketService
      */
-    public constructor(private gameService: GameService) {}
+    public constructor(private gameService: GameService, private socketService: SocketService, private router: Router) {
+        this.socketService.LobbyClosed.subscribe({
+            next: () => this.handleLobbyClosed()
+        });
+    }
+
+    /**
+     *
+     */
+    private handleLobbyClosed(): void {
+        this.gameService.ShowSplashScreen = true;
+        this.router.navigate(['/']);
+    }
 }
