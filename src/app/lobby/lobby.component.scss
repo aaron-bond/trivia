@@ -14,3 +14,9 @@ input.hidden {
     width: 1px;
     height: 1px;
 }
+
+.lobby-container {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
